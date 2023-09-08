@@ -14,7 +14,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="junit5-trainer" target="17" />
+      <module name="junit5-trainer" target="13" />
     </bytecodeTargetLevel>
   </component>
 </project>

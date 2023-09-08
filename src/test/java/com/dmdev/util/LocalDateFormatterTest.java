@@ -13,9 +13,6 @@ class LocalDateFormatterTest {
 
     LocalDate actualResult = LocalDateFormatter.format(date);
 
-        assertThat(actualResult).isEqualTo(LocalDate.of(1234,12,12));
+    assertThat(actualResult).isEqualTo(LocalDate.of(1234,12,12));
     }
-
-
-
 }
