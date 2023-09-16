@@ -6,6 +6,9 @@ import com.dmdev.entity.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +81,24 @@ class CreateUserValidatorTest {
 
         assertThat(actualResult.getErrors()).hasSize(1);
         assertThat(actualResult.getErrors().get(0).getCode()).isEqualTo("invalid.role");
+    }
+
+    @Test
+    void invalidBirthdayGenderRole() {
+        CreateUserDto createUserDto = CreateUserDto.builder()
+                .birthday("1234-12-12999")
+                .email("123@qwe.com")
+                .gender("qwr")
+                .name("Mesut")
+                .password("mesosh")
+                .role("qw")
+                .build();
+
+        ValidationResult actualResult = validator.validate(createUserDto);
+
+        assertThat(actualResult.getErrors()).hasSize(3);
+        List<String> errorsCodes = actualResult.getErrors().stream().map(Error::getCode).collect(Collectors.toList());
+        assertThat(errorsCodes).contains("invalid.role", "invalid.birthday", "invalid.gender");
     }
 
 }
