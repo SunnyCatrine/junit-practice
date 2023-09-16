@@ -38,24 +38,8 @@ class UserServiceTest {
 
     @Test
     void loginSuccess() {
-        User user = User.builder()
-                .birthday(LocalDate.of(1234,12,12))
-                .email("123@qwe.com")
-                .gender(Gender.MALE)
-                .name("Mesut")
-                .role(Role.USER)
-                .id(10)
-                .password("qwe")
-                .build();
-
-        UserDto userDto = UserDto.builder()
-                .birthday(LocalDate.of(1234,12,12))
-                .email("123@qwe.com")
-                .gender(Gender.MALE)
-                .name("Mesut")
-                .role(Role.USER)
-                .id(10)
-                .build();
+        User user = getUser();
+        UserDto userDto = getUserDto();
 
         doReturn(Optional.of(user)).when(userDao).findByEmailAndPassword(user.getEmail(),user.getPassword());
         doReturn(userDto).when(userMapper).map(user);
@@ -64,5 +48,28 @@ class UserServiceTest {
 
         assertThat(actualResult).isPresent();
         assertThat(actualResult).hasValue(userDto);
+    }
+
+    private UserDto getUserDto() {
+        return UserDto.builder()
+                .birthday(LocalDate.of(1234,12,12))
+                .email("123@qwe.com")
+                .gender(Gender.MALE)
+                .name("Mesut")
+                .role(Role.USER)
+                .id(10)
+                .build();
+    }
+
+    private User getUser() {
+        return User.builder()
+                .birthday(LocalDate.of(1234,12,12))
+                .email("123@qwe.com")
+                .gender(Gender.MALE)
+                .name("Mesut")
+                .role(Role.USER)
+                .id(10)
+                .password("qwe")
+                .build();
     }
 }
