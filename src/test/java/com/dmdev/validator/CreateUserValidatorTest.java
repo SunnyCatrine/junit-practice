@@ -46,4 +46,21 @@ class CreateUserValidatorTest {
         assertThat(actualResult.getErrors().get(0).getCode()).isEqualTo("invalid.birthday");
     }
 
+    @Test
+    void invalidGender() {
+        CreateUserDto createUserDto = CreateUserDto.builder()
+                .birthday("1234-12-12")
+                .email("123@qwe.com")
+                .gender("qw")
+                .name("Mesut")
+                .password("mesosh")
+                .role(Role.USER.name())
+                .build();
+
+        ValidationResult actualResult = validator.validate(createUserDto);
+
+        assertThat(actualResult.getErrors()).hasSize(1);
+        assertThat(actualResult.getErrors().get(0).getCode()).isEqualTo("invalid.gender");
+    }
+
 }
