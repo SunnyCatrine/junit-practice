@@ -16,7 +16,7 @@ class PropertiesUtilTest {
         String actualValue = PropertiesUtil.get(key);
         assertEquals(expectedValue,actualValue);
     }
-    
+
     static Stream<Arguments> getPropertyArguments() {
 
         return Stream.of(
