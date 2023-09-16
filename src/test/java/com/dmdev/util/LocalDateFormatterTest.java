@@ -2,9 +2,11 @@ package com.dmdev.util;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,5 +26,15 @@ class LocalDateFormatterTest {
         String date = "1234-12-1222";
 
         assertThrows(DateTimeParseException.class, () -> LocalDateFormatter.format(date));
+    }
+
+    static Stream<Arguments> getValidationArguments() {
+        return Stream.of(
+                Arguments.of("1234-12-12", true),
+                Arguments.of("1234-000000", false),
+                Arguments.of("12-12-1234", false),
+                Arguments.of(null, false),
+                Arguments.of("",false)
+        );
     }
 }
