@@ -9,6 +9,7 @@ import com.dmdev.entity.User;
 import com.dmdev.mapper.CreateUserMapper;
 import com.dmdev.mapper.UserMapper;
 import com.dmdev.validator.CreateUserValidator;
+import com.dmdev.validator.ValidationResult;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,6 +60,33 @@ class UserServiceTest {
 
         assertThat(actualResult).isEmpty();
         verifyNoInteractions(userMapper);
+    }
+
+    @Test
+    void createSuccess() {
+        CreateUserDto createUserDto = getCreateUserDto();
+        User user = getUser();
+        UserDto userDto = getUserDto();
+
+        doReturn(new ValidationResult()).when(createUserValidator).validate(createUserDto);
+        doReturn(user).when(createUserMapper).map(createUserDto);
+        doReturn(userDto).when(userMapper).map(user);
+
+        UserDto actualResult = userService.create(createUserDto);
+
+        assertThat(actualResult).isEqualTo(userDto);
+        verify(userDao).save(user);
+    }
+
+    private CreateUserDto getCreateUserDto() {
+        return CreateUserDto.builder()
+                .birthday("1234-12-12")
+                .email("123@qwe.com")
+                .gender(Gender.MALE.name())
+                .name("Mesut")
+                .password("mesosh")
+                .role(Role.USER.name())
+                .build();
     }
 
     private UserDto getUserDto() {
