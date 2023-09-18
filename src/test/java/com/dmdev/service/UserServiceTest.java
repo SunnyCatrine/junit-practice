@@ -6,9 +6,11 @@ import com.dmdev.dto.UserDto;
 import com.dmdev.entity.Gender;
 import com.dmdev.entity.Role;
 import com.dmdev.entity.User;
+import com.dmdev.exception.ValidationException;
 import com.dmdev.mapper.CreateUserMapper;
 import com.dmdev.mapper.UserMapper;
 import com.dmdev.validator.CreateUserValidator;
+import com.dmdev.validator.Error;
 import com.dmdev.validator.ValidationResult;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -76,6 +79,15 @@ class UserServiceTest {
 
         assertThat(actualResult).isEqualTo(userDto);
         verify(userDao).save(user);
+    }
+
+    @Test
+    void shouldThrowExceptionIfDtoInvalid() {
+        doReturn(true).when(createUserValidator).validate(any()).hasErrors();
+        doReturn(List.of(Error.of(any(),any()))).when(createUserValidator).validate(any()).getErrors();
+
+        assertThrows(ValidationException.class, () -> userService.create(any()));
+
     }
 
     private CreateUserDto getCreateUserDto() {
