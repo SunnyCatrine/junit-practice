@@ -21,7 +21,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -48,6 +49,16 @@ class UserServiceTest {
 
         assertThat(actualResult).isPresent();
         assertThat(actualResult).hasValue(userDto);
+    }
+
+    @Test
+    void loginFailed() {
+        doReturn(Optional.empty()).when(userDao).findByEmailAndPassword(any(),any());
+
+        Optional<UserDto> actualResult = userService.login("12", "yu");
+
+        assertThat(actualResult).isEmpty();
+        verifyNoInteractions(userMapper);
     }
 
     private UserDto getUserDto() {
