@@ -83,11 +83,18 @@ class UserServiceTest {
 
     @Test
     void shouldThrowExceptionIfDtoInvalid() {
-        doReturn(true).when(createUserValidator).validate(any()).hasErrors();
-        doReturn(List.of(Error.of(any(),any()))).when(createUserValidator).validate(any()).getErrors();
+        ValidationResult validationResult = getValidationResultWithErrors();
+        doReturn(validationResult).when(createUserValidator).validate(any());
 
         assertThrows(ValidationException.class, () -> userService.create(any()));
+        verifyNoInteractions(createUserMapper, userDao, userMapper);
 
+    }
+
+    private ValidationResult getValidationResultWithErrors() {
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.add(Error.of("",""));
+        return validationResult;
     }
 
     private CreateUserDto getCreateUserDto() {
