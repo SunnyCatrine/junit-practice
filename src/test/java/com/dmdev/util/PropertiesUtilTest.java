@@ -20,10 +20,10 @@ class PropertiesUtilTest {
     static Stream<Arguments> getPropertyArguments() {
 
         return Stream.of(
-                Arguments.of("db.url", "jdbc:postgresql://localhost:5432/flight_repository"),
-                Arguments.of("db.user", "postgres"),
-                Arguments.of("db.password", "pass"),
-                Arguments.of("db.driver", "org.postgresql.Driver")
+                Arguments.of("db.url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"),
+                Arguments.of("db.user", "sa"),
+                Arguments.of("db.password", ""),
+                Arguments.of("db.driver", "org.h2.Driver")
         );
     }
 
