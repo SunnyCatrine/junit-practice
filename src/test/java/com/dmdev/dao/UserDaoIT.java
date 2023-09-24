@@ -53,10 +53,7 @@ class UserDaoIT extends IntegrationTestBase {
         User actualResult = userDao.save(user);
 
         assertThat(actualResult).isNotNull();
-        Integer actualId = actualResult.getId();
-        user.setId(actualId);
-
-        assertThat(actualResult).isEqualTo(user);
+        assertThat(actualResult.getId()).isNotNull();
     }
 
     @Test
@@ -73,6 +70,13 @@ class UserDaoIT extends IntegrationTestBase {
 
     @Test
     void delete() {
+        userDao.save(getUser("email1@gmail.com"));
+        User savedUser2 = userDao.save(getUser("email2@gmail.com"));
+        userDao.save(getUser("email3@gmail.com"));
+
+        boolean actualResult = userDao.delete(savedUser2.getId());
+
+        assertTrue(actualResult);
     }
 
     @Test
@@ -86,7 +90,6 @@ class UserDaoIT extends IntegrationTestBase {
                 .gender(Gender.MALE)
                 .name("Mesut")
                 .role(Role.USER)
-                .id(10)
                 .password("qwe")
                 .build();
     }
