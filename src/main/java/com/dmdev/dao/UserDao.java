@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,7 +123,7 @@ public class UserDao implements Dao<Integer, User> {
         return User.builder()
                 .id(resultSet.getObject("id", Integer.class))
                 .name(resultSet.getObject("name", String.class))
-                .birthday(resultSet.getObject("birthday", Date.class).toLocalDate())
+                .birthday(LocalDate.parse(resultSet.getObject("birthday", String.class)))
                 .email(resultSet.getObject("email", String.class))
                 .password(resultSet.getObject("password", String.class))
                 .role(Role.valueOf(resultSet.getObject("role", String.class)))
@@ -132,7 +133,7 @@ public class UserDao implements Dao<Integer, User> {
 
     private void prepareStatementToUpsert(PreparedStatement preparedStatement, User entity) throws SQLException {
         preparedStatement.setObject(1, entity.getName());
-        preparedStatement.setObject(2, Date.valueOf(entity.getBirthday()));
+        preparedStatement.setObject(2, entity.getBirthday().toString());
         preparedStatement.setObject(3, entity.getEmail());
         preparedStatement.setObject(4, entity.getPassword());
         preparedStatement.setObject(5, entity.getRole().name());
