@@ -81,6 +81,22 @@ class UserDaoIT extends IntegrationTestBase {
 
     @Test
     void update() {
+        userDao.save(getUser("email1@gmail.com"));
+        User user2 = getUser("email2@gmail.com");
+        User savedUser2 = userDao.save(user2);
+        userDao.save(getUser("email3@gmail.com"));
+
+        user2.setName("Arslan");
+        user2.setPassword("098");
+
+        userDao.update(user2);
+
+        Optional<User> actualResult = userDao.findById(savedUser2.getId());
+
+        assertThat(actualResult).isPresent();
+        assertThat(actualResult).get().isEqualTo(user2);
+
+
     }
 
     private User getUser(String email) {

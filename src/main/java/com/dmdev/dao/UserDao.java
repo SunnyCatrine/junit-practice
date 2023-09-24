@@ -30,7 +30,7 @@ public class UserDao implements Dao<Integer, User> {
     private static final String SAVE_SQL =
             "INSERT INTO users (name, birthday, email, password, role, gender) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM users WHERE id = ?";
-    private static final String UPDATE_BY_ID_SQL = "UPDATE users SET name = ? birthday = ? email = ?, password = ?, role = ?, gender = ? WHERE id = ?";
+    private static final String UPDATE_BY_ID_SQL = "UPDATE users SET name = ?, birthday = ?, email = ?, password = ?, role = ?, gender = ? WHERE id = ?";
 
     public static UserDao getInstance() {
         return INSTANCE;
