@@ -39,6 +39,15 @@ class UserDaoIT extends IntegrationTestBase {
 
     @Test
     void save() {
+        User user = getUser("email@gmail.com");
+
+        User actualResult = userDao.save(user);
+
+        assertThat(actualResult).isNotNull();
+        Integer actualId = actualResult.getId();
+        user.setId(actualId);
+
+        assertThat(actualResult).isEqualTo(user);
     }
 
     @Test
