@@ -40,12 +40,10 @@ class UserDaoIT extends IntegrationTestBase {
         User savedUser2 = userDao.save(getUser("email2@gmail.com"));
         userDao.save(getUser("email3@gmail.com"));
 
-
         Optional<User> actualResult = userDao.findById(savedUser2.getId());
 
         assertThat(actualResult).isPresent();
         assertThat(actualResult).get().isEqualTo(savedUser2);
-
     }
 
     @Test
@@ -63,6 +61,14 @@ class UserDaoIT extends IntegrationTestBase {
 
     @Test
     void findByEmailAndPassword() {
+        userDao.save(getUser("email1@gmail.com"));
+        User savedUser2 = userDao.save(getUser("email2@gmail.com"));
+        userDao.save(getUser("email3@gmail.com"));
+
+        Optional<User> actualResult = userDao.findByEmailAndPassword(savedUser2.getEmail(), savedUser2.getPassword());
+
+        assertThat(actualResult).isPresent();
+        assertThat(actualResult).get().isEqualTo(savedUser2);
     }
 
     @Test
