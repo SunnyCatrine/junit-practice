@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
@@ -35,6 +36,16 @@ class UserDaoIT extends IntegrationTestBase {
 
     @Test
     void findById() {
+        userDao.save(getUser("email1@gmail.com"));
+        User savedUser2 = userDao.save(getUser("email2@gmail.com"));
+        userDao.save(getUser("email3@gmail.com"));
+
+
+        Optional<User> actualResult = userDao.findById(savedUser2.getId());
+
+        assertThat(actualResult).isPresent();
+        assertThat(actualResult).get().isEqualTo(savedUser2);
+
     }
 
     @Test
